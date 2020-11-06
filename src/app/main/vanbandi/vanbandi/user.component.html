@@ -80,53 +80,56 @@
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin công việc</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin công việc</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông của văn bản</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin văn bản</h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Tên công việc(<span style="color: red;">*</span>)</label>
+              <label class="col-sm-2 control-label no-padding-right"> Ngày ban hành(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <input type="text" placeholder=" Tên công việc" formControlName="workname"/>
-                <div *ngIf="submitted && f.workname.errors" class="invalid-feedback">
-                  <div *ngIf="f.workname.errors.required"> Tên công việc là bắt buộc</div>
+                <p-calendar formControlName="ngaybanhanh" [dateFormat]="dateFormat"  [locale]="locale_vn" [showIcon]="true" inputId="icon"></p-calendar>
+                <div *ngIf="submitted && f.ngaybanhanh.errors" class="invalid-feedback">
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Nội dung(<span style="color: red;">*</span>)</label>
+              <label class="col-sm-2 control-label no-padding-right">Loại văn bản(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <input type="text" placeholder="Nội dung" formControlName="workdetails"/>
+                <input type="text" placeholder="Loại văn bản" formControlName="loaivanbanid"/>
                
-                <div *ngIf="submitted && f.workdetails.errors" class="invalid-feedback">
-                  <div *ngIf="f.workdetails.errors.required"> Nội dung</div>
+                <div *ngIf="submitted && f.loaivanbanid.errors" class="invalid-feedback">
+                  <div *ngIf="f.loaivanbanid.errors.required"> Loại văn bản</div>
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Ngày bắt đầu(<span style="color: red;">*</span>)</label>
+              <label class="col-sm-2 control-label no-padding-right">Nơi nhận(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <p-calendar formControlName="dateWorkstart" [dateFormat]="dateFormat"  [locale]="locale_vn" [showIcon]="true" inputId="icon"></p-calendar>
-                <div *ngIf="submitted && f.dateWorkstart.errors" class="invalid-feedback">
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Ngày kết thúc(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-                <p-calendar formControlName="dateWorkend" [dateFormat]="dateFormat"  [locale]="locale_vn" [showIcon]="true" inputId="icon"></p-calendar>
-                <div *ngIf="submitted && f.dateWorkend.errors" class="invalid-feedback">
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right">Ghi chú(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-               <textarea formControlName="note"></textarea>
+                <input type="text" placeholder="Nơi nhận" formControlName="noinhan"/>
                
-                <div *ngIf="submitted && f.workdetails.errors" class="invalid-feedback">
-                  <div *ngIf="f.workdetails.errors.required"> Ghi chú</div>
+                <div *ngIf="submitted && f.noinhan.errors" class="invalid-feedback">
+                  <div *ngIf="f.noinhan.errors.required"> Nơi nhận</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right">Nội dung(<span style="color: red;">*</span>)</label>
+              <div class="col-sm-10">
+               <textarea formControlName="noidung"></textarea>
+               
+                <div *ngIf="submitted && f.noidung.errors" class="invalid-feedback">
+                  <div *ngIf="f.noidung.errors.required"> Nội dung</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right">Người soạn thảo(<span style="color: red;">*</span>)</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Người soạn thảo" formControlName="user_id"/>
+               
+                <div *ngIf="submitted && f.user_id.errors" class="invalid-feedback">
+                  <div *ngIf="f.user_id.errors.required"> Người soạn thảo</div>
                 </div>
               </div>
             </div>

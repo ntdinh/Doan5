@@ -135,9 +135,9 @@ export class VanbandiComponent extends BaseComponent implements OnInit {
       this.formdata = this.fb.group({
         'ngaybanhanh': ['', Validators.required],
       'loaivanbanid': ['', Validators.required],
-      'noinhan': [  Validators.required],
-      'noidung': [ , Validators.required],
-      'user_id': [,Validators.required],
+      'noinhan': [ '', Validators.required],
+      'noidung': [ '', Validators.required],
+      'user_id': ['',Validators.required],
       } );
      // this.formdata.get('dateWorkstart').setValue(this.today);
      // this.formdata.get('dateWorkend').setValue(this.today);
@@ -154,10 +154,10 @@ export class VanbandiComponent extends BaseComponent implements OnInit {
       $('#createUserModal').modal('toggle');
       this._api.get('/api/VanBanDi/get-by-id/'+ row.vanbanid).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.vanbandis = res; 
-      //  let dateWorkstart = new Date(this.vanbandi.dateWorkstart);
+        let ngaybanhanh = new Date(this.vanbandis.ngaybanhanh);
       //  let dateWorkend = new Date(this.vanbandi.dateWorkend);
           this.formdata = this.fb.group({
-            'ngaybanhanh': [this.vanbandis.ngaybanhanh, Validators.required],
+            'ngaybanhanh': [ngaybanhanh, Validators.required],
             'loaivanbanid': [this.vanbandis.loaivanbanid, Validators.required],
             'noinhan': [this.vanbandis.noinhan, Validators.required],
             'noidung': [this.vanbandis.noidung, Validators.required],
