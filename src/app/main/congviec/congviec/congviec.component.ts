@@ -14,7 +14,7 @@ export class CongviecComponent extends BaseComponent implements OnInit {
   public Work: any;
   public works: any;
   public totalRecords:any;
-  public pageSize = 3;
+  public pageSize = 2;
   public page = 1;
   public uploadedFiles: any[] = [];
   public formsearch: any;

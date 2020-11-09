@@ -4,12 +4,12 @@
       <i class="ace-icon fa fa-home home-icon"></i>
       <a href="#">Trang chủ</a>
     </li>
-    <li class="active">Quản lý văn bản</li>
+    <li class="active">Quản lý số văn bản</li>
   </ul>
   <div class="nav-search">
     <p class="pull-right no-margin">
       <a (click)="createModal()" class="btn btn-success btn-xs">
-        <i class="fa fa-plus"></i>&nbsp;Thêm
+        <i class="fa fa-plus"></i>&nbsp;Thêm mới
       </a>
     </p>
   </div>
@@ -21,11 +21,12 @@
     <p-panel header="Tìm kiếm" [style]="{'margin-top': '2px'}">
       <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
         <div class="form-group">
-          <label class="col-sm-1 control-label no-padding-right"> Số văn bản</label>
+          <label class="col-sm-1 control-label no-padding-right"> Tên số </label>
           <div class="col-sm-11">
-            <input formControlName="TEN_SO_VAN_BAN"  type="text" placeholder="Họ tên" style="width: 100%;" />
+            <input formControlName="tenovanban"  type="text"  />
           </div>
         </div>
+        
         <div class="form-group">
           <label class="col-sm-1 control-label no-padding-right"></label>
           <div class="col-sm-11">
@@ -34,24 +35,21 @@
         </div>
       </form> 
     </p-panel>
-    <p-table selectionMode="single" [value]="menus" styleClass="p-datatable-gridlines">
+    <p-table selectionMode="single" [value]="SoVanBan" styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 70px; text-align: center;">STT</th>
           <th style="width: 15%; text-align: left;">Tên số văn bản</th>
-          <th style="width: 20%; text-align: left;">Ghi chú</th>
           
+          <th style="width: 130px; text-align: left;">Ghi chú</th>
           <th style="width: 120px; text-align: left;">Tác vụ</th>
         </tr>
       </ng-template>
-    
       <ng-template pTemplate="body" let-item  let-i="rowIndex">
-        
         <tr>
-        
           <td style="width: 70px; text-align: center;">{{ i + 1 }}</td>
-          <td>{{ item.teN_SO_VAN_BAN }}</td>
-          <td>{{ item.ghI_CHU }}</td>
+          <td>{{ item.tenovanban }}</td>
+          <td>{{ item.ghchu }}</td>
           <td class="action-col" >
             <div class="btn-group">
               <button title="" class="btn btn-xs btn-white btn-default"  (click)="openUpdateModal(item)">  
@@ -62,10 +60,8 @@
               </button>
             </div>  
           </td>
-       
         </tr>
       </ng-template>
-   
     </p-table>
     <!-- PAGE CONTENT ENDS -->
   </div>
@@ -79,36 +75,32 @@
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin số văn bản</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin văn bản</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin </h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin </h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Mã văn bản</label>
+              <label class="col-sm-2 control-label no-padding-right"> Tên số văn bản(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <input type="text" formControlName="ID_SO_VAN_BAN" placeholder="Mã số văn bản" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Tên văn bản(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="Tên số văn bản" formControlName="TEN_SO_VAN_BAN"/>
-                <div *ngIf="submitted && f.TEN_SO_VAN_BAN.errors" class="invalid-feedback">
-                  <div *ngIf="f.TEN_SO_VAN_BAN.errors.required">Tên văn bản là bắt buộc</div>
+                <input type="text" placeholder=" Tên công việc" formControlName="tenovanban"/>
+                <div *ngIf="submitted && f.tenovanban.errors" class="invalid-feedback">
+                  <div *ngIf="f.tenovanban.errors.required"> Không được để trống</div>
                 </div>
               </div>
             </div>
-           
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Ghi chú</label>
+              <label class="col-sm-2 control-label no-padding-right"> Ghi chú(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <input type="text" formControlName="GHI_CHU" placeholder="Ghi chú" />
+                <input type="text" placeholder="Nội dung" formControlName="ghchu"/>
+               
+                <div *ngIf="submitted && f.ghchu.errors" class="invalid-feedback">
+                  <div *ngIf="f.ghchu.errors.required"> Ghi chú</div>
+                </div>
               </div>
             </div>
             
-           
-            
+             
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-sm" (click)="Reset()">

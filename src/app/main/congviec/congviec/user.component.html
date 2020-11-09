@@ -52,9 +52,9 @@
           <td style="width: 70px; text-align: center;">{{ i + 1 }}</td>
           <td>{{ item.workname }}</td>
           <td>{{ item.workdetails }}</td>
-          <td>{{ item.dateWorkstart }}</td>
-          <td>{{ item.dateWorkend }}</td>
-          <td>{{ item.workid }}</td>
+          <td>{{ item.dateWorkstart | date:'yyyy-MM-dd ' }}</td>
+          <td>{{ item.dateWorkend | date:'yyyy-MM-dd '}}</td>
+          <td>{{ item.note }}</td>
           <td class="action-col" >
             <div class="btn-group">
               <button title="" class="btn btn-xs btn-white btn-default"  (click)="openUpdateModal(item)">  
@@ -123,7 +123,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right">Ghi chú(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-               <textarea formControlName="note"></textarea>
+               <textarea formControlName="note" rows="5" cols="100"></textarea>
                
                 <div *ngIf="submitted && f.workdetails.errors" class="invalid-feedback">
                   <div *ngIf="f.workdetails.errors.required"> Ghi chú</div>

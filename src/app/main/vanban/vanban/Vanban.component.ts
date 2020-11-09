@@ -11,8 +11,8 @@ declare var $: any;
   styleUrls: ['./user.component.css'],
 })
 export class VanbanComponent extends BaseComponent implements OnInit {
-  public menus: any ;
-  public SO_VAN_BAN: any;
+  public SoVanBan: any;
+  public sovanbans: any;
   public totalRecords:any;
   public pageSize = 3;
   public page = 1;
@@ -29,16 +29,16 @@ export class VanbanComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._api.get('/api/SoVanBan/get-all').takeUntil(this.unsubscribe).subscribe(data => {
-      this.menus = data;
-      console.log(data);
-      
-    }); 
+    this.formsearch = this.fb.group({
+      'tenovanban': [''],  
+    });
+   
+   this.search();
   }
 
   loadPage(page) { 
     this._api.post('/api/SoVanBan/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.SO_VAN_BAN = res.data;
+      this.SoVanBan = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -47,8 +47,8 @@ export class VanbanComponent extends BaseComponent implements OnInit {
   search() { 
     this.page = 1;
     this.pageSize = 5;
-    this._api.post('/api/SoVanBan/search',{page: this.page, pageSize: this.pageSize, ID_SO_VAN_BAN: this.formsearch.get('ID_SO_VAN_BAN').value}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.SO_VAN_BAN = res.data;
+    this._api.post('/api/SoVanBan/search',{page: this.page, pageSize: this.pageSize, tenovanban: this.formsearch.get('tenovanban').value}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.SoVanBan = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -70,67 +70,70 @@ export class VanbanComponent extends BaseComponent implements OnInit {
       return;
     } 
     if(this.isCreate) { 
-      
+      this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
+        
         let tmp = {
-          ID_SO_VAN_BAN:value.ID_SO_VAN_BAN,
-           TEN_SO_VAN_BAN:value.TEN_SO_VAN_BAN,
-           GHI_CHU:value.GHI_CHU,
-                     
+           
+          tenovanban:value.tenovanban,
+          ghchu:value.ghchu,
+                    
           };
         this._api.post('/api/SoVanBan/create-svb',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
-          
+          });
       });
     } else { 
-      
+      this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
+        
         let tmp = {
-          ID_SO_VAN_BAN:value.ID_SO_VAN_BAN,
-           TEN_SO_VAN_BAN:value.TEN_SO_VAN_BAN,
-           GHI_CHU:value.GHI_CHU, 
-                       
+          tenovanban:value.tenovanban,
+          ghchu:value.ghchu,
+          
+          sovanbanid:this.sovanbans.sovanbanid,          
           };
         this._api.post('/api/SoVanBan/update-svb',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
           });
-      
+      });
     }
    
   } 
 
   onDelete(row) { 
-    this._api.post('/api/SoVanBan/delete-svb',{ID_SO_VAN_BAN:row.iD_SO_VAN_BAN}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/SoVanBan/delete-svb',{sovanbanid:row.sovanbanid}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
-      console.log(row.iD_SO_VAN_BAN);
       this.search(); 
       });
   }
 
   Reset() {  
-    this.SO_VAN_BAN = null;
+    this.SoVanBan = null;
     this.formdata = this.fb.group({
-      'ID_SO_VAN_BAN': ['', Validators.required],
-      'TEN_SO_VAN_BAN': ['', Validators.required],
-      'GHI_CHU': ['', Validators.required],
-    } ); 
+      'tenovanban': ['', Validators.required],
+      'ghchu': ['', Validators.required],
+      
+
+      
+    }); 
   }
 
   createModal() {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
     this.isCreate = true;
-    this.SO_VAN_BAN = null;
+    this.sovanbans = null;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
       this.formdata = this.fb.group({
-        'ID_SO_VAN_BAN': ['', Validators.required],
-        'TEN_SO_VAN_BAN': ['', Validators.required],
-      'GHI_CHU': ['', Validators.required],
-      });
-
+        'tenovanban': ['', Validators.required],
+      'ghchu': ['', Validators.required],
+       
+      } );
+  
       this.doneSetupForm = true;
     });
   }
@@ -141,16 +144,17 @@ export class VanbanComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/SO_VAN_BAN/get-by-id/'+ row.iD_SO_VAN_BAN).takeUntil(this.unsubscribe).subscribe((res:any) => {
-        this.SO_VAN_BAN = res; 
+      this._api.get('/api/SoVanBan/get-by-id/'+ row.sovanbanid).takeUntil(this.unsubscribe).subscribe((res:any) => {
+        this.sovanbans = res; 
+         
           this.formdata = this.fb.group({
-            'ID_SO_VAN_BAN': ['', Validators.required],
-            'TEN_SO_VAN_BAN': ['', Validators.required],
-             'GHI_CHU': ['', Validators.required],
-          
+            'tenovanban': [this.sovanbans.tenovanban, Validators.required],
+            'ghchu': [this.sovanbans.ghchu, Validators.required],
+            
+            
           }); 
           this.doneSetupForm = true;
-        });  
+        }); 
     }, 700);
   }
 

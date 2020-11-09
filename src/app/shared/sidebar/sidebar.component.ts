@@ -7,13 +7,13 @@ declare let $: any;
 })
 export class SidebarComponent implements OnInit, AfterViewInit {
   public menus = [
-  {name :'Người dùng', url:'',icon:'user',childs:[{name:'Quản lý người dùng',url:'user/user'},{name:'Quản lý văn bản',url:'vanban/vanban'},{name:'Đăng xuất', url:''},{name:'Đăng nhập', url:'/login'}]},
-  {name:'Quản lí cầm đồ',url:'',icon:'signal',childs:[{name:'Quản lý nợ phải thu',url:'/product/order'},{name:'Quản lý cầm đồ',url:'/product/type'},{name:'Quản lý tài sản',url:'/product/product'}]},
+  {name :'Người dùng', url:'',icon:'user',childs:[{name:'Quản lý người dùng',url:'user/user'}]},
+  
   {name :'Quản lí chung', url:'',icon:'user',childs:[{name:'Quản lý số văn bản',url:'vanban/vanban'},
   {name:'Quản lý loại văn bản',url:'loaivanban/loaivanban'},
   {name:'Quản lý công việc',url:'congviec/congviec'},
-  {name:'Quản lý văn bản đi',url:'vanbandi/vanbandi'},
-  {name:'Đăng xuất', url:''},{name:'Đăng nhập', url:'/login'}]}];
+  {name:'Quản lý văn bản đi',url:'vanbandi/vanbandi'}
+   ]}];
   
   constructor() { } 
   ngOnInit(): void {
