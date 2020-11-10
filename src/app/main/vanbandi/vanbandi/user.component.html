@@ -116,8 +116,8 @@
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right">Nội dung(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-               <textarea formControlName="noidung"rows="5" cols="100"></textarea>
                
+               <input type="file"   formControlName="noidung"/>
                 <div *ngIf="submitted && f.noidung.errors" class="invalid-feedback">
                   <div *ngIf="f.noidung.errors.required"> Nội dung</div>
                 </div>
