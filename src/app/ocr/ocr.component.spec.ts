@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VanbandiComponent } from './vanbandi.component';
+import { OcrComponent } from './ocr.component';
 
-describe('VanbandiComponent', () => {
-  let component: VanbandiComponent;
-  let fixture: ComponentFixture<VanbandiComponent>;
+describe('OcrComponent', () => {
+  let component: OcrComponent;
+  let fixture: ComponentFixture<OcrComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VanbandiComponent ]
+      declarations: [ OcrComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VanbandiComponent);
+    fixture = TestBed.createComponent(OcrComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

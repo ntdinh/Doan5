@@ -10,11 +10,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './lib/error.interceptor';
 import { JwtInterceptor } from './lib/jwt.interceptor';
-
+import { OcrComponent } from './ocr/ocr.component';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+ 
+ 
+ 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent    
+    LoginComponent,
+    OcrComponent    
   ],
   imports: [
     SharedModule,
@@ -22,7 +28,13 @@ import { JwtInterceptor } from './lib/jwt.interceptor';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot([
+      { path: 'computer-vision-ocr', component: OcrComponent },
+    ])
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
