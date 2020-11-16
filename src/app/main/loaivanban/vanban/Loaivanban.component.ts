@@ -7,8 +7,8 @@ import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
+  templateUrl: './loaivanban.component.html',
+  styleUrls: ['./loaivanban.component.css'],
 })
 export class LoaivanbanComponent extends BaseComponent implements OnInit {
   public loaivanban: any ;
