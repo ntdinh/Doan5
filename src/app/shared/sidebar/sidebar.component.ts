@@ -11,6 +11,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   
   {name :'Quản lí chung', url:'',icon:'user',childs:[{name:'Quản lý số văn bản',url:'vanban/vanban'},
   {name:'Quản lý loại văn bản',url:'loaivanban/loaivanban'},
+  {name:'Quản lý phòng ban',url:'phongban/phongban'},
   {name:'Quản lý công việc',url:'congviec/congviec'},
   {name:'Quản lý văn bản đi',url:'vanbandi/vanbandi'},
   {name:'Nhận diện văn bản',url:'ocr/ocr'}

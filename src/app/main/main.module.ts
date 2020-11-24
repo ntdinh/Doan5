@@ -71,6 +71,13 @@ export const mainRoutes: Routes = [
         canActivate: [RoleGuard],
         data: { roles: [Role.Admin, Role.User] },
       },
+      {
+        path: 'phongban',
+        loadChildren: () =>
+          import('./phongban/phongban.module').then((m) => m.PhongbanModule),
+        canActivate: [RoleGuard],
+        data: { roles: [Role.Admin, Role.User] },
+      },
       
     ],
   },

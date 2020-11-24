@@ -48,8 +48,8 @@
       <ng-template pTemplate="body" let-item  let-i="rowIndex">
         <tr>
           <td style="width: 70px; text-align: center;">{{ i + 1 }}</td>
-          <td>{{ item.tenovanban }}</td>
-          <td>{{ item.ghchu }}</td>
+          <td>{{ item.tensovanban }}</td>
+          <td>{{ item.ghichu }}</td>
           <td class="action-col" >
             <div class="btn-group">
               <button title="" class="btn btn-xs btn-white btn-default"  (click)="openUpdateModal(item)">  
@@ -83,19 +83,19 @@
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right"> Tên số văn bản(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <input type="text" placeholder=" Tên công việc" formControlName="tenovanban"/>
-                <div *ngIf="submitted && f.tenovanban.errors" class="invalid-feedback">
-                  <div *ngIf="f.tenovanban.errors.required"> Không được để trống</div>
+                <input type="text" placeholder=" Tên công việc" formControlName="tensovanban"/>
+                <div *ngIf="submitted && f.tensovanban.errors" class="invalid-feedback">
+                  <div *ngIf="f.tensovanban.errors.required"> Không được để trống</div>
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right"> Ghi chú(<span style="color: red;">*</span>)</label>
               <div class="col-sm-10">
-                <input type="text" placeholder="Nội dung" formControlName="ghchu"/>
+                <input type="text" placeholder="Nội dung" formControlName="ghichu"/>
                
-                <div *ngIf="submitted && f.ghchu.errors" class="invalid-feedback">
-                  <div *ngIf="f.ghchu.errors.required"> Ghi chú</div>
+                <div *ngIf="submitted && f.ghichu.errors" class="invalid-feedback">
+                  <div *ngIf="f.ghichu.errors.required"> Ghi chú</div>
                 </div>
               </div>
             </div>

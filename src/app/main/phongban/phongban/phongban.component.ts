@@ -6,11 +6,11 @@ import { BaseComponent } from '../../../lib/base-component';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 @Component({
-  selector: 'app-vanbandi',
+  selector: 'app-phongban',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
-export class VanbandiComponent extends BaseComponent implements OnInit {
+export class PhongbanComponent extends BaseComponent implements OnInit {
   public vanbandis: any ;
   public VanBanDi: any;
   public LoaiVanBan : any;

@@ -74,8 +74,8 @@ export class VanbanComponent extends BaseComponent implements OnInit {
         
         let tmp = {
            
-          tenovanban:value.tenovanban,
-          ghchu:value.ghchu,
+          tensovanban:value.tensovanban,
+          ghichu:value.ghichu,
                     
           };
         this._api.post('/api/SoVanBan/create-svb',tmp).takeUntil(this.unsubscribe).subscribe(res => {
@@ -88,8 +88,8 @@ export class VanbanComponent extends BaseComponent implements OnInit {
       this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
         
         let tmp = {
-          tenovanban:value.tenovanban,
-          ghchu:value.ghchu,
+          tensovanban:value.tensovanban,
+          ghichu:value.ghichu,
           
           sovanbanid:this.sovanbans.sovanbanid,          
           };
@@ -113,8 +113,8 @@ export class VanbanComponent extends BaseComponent implements OnInit {
   Reset() {  
     this.SoVanBan = null;
     this.formdata = this.fb.group({
-      'tenovanban': ['', Validators.required],
-      'ghchu': ['', Validators.required],
+      'tensovanban': ['', Validators.required],
+      'ghichu': ['', Validators.required],
       
 
       
@@ -129,8 +129,8 @@ export class VanbanComponent extends BaseComponent implements OnInit {
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
       this.formdata = this.fb.group({
-        'tenovanban': ['', Validators.required],
-      'ghchu': ['', Validators.required],
+        'tensovanban': ['', Validators.required],
+      'ghichu': ['', Validators.required],
        
       } );
   
@@ -148,8 +148,8 @@ export class VanbanComponent extends BaseComponent implements OnInit {
         this.sovanbans = res; 
          
           this.formdata = this.fb.group({
-            'tenovanban': [this.sovanbans.tenovanban, Validators.required],
-            'ghchu': [this.sovanbans.ghchu, Validators.required],
+            'tensovanban': [this.sovanbans.tensovanban, Validators.required],
+            'ghichu': [this.sovanbans.ghichu, Validators.required],
             
             
           }); 
