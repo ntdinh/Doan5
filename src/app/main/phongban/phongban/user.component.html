@@ -35,25 +35,23 @@
         </div>
       </form> 
     </p-panel>
-    <p-table selectionMode="single" [value]="VanBanDi" styleClass="p-datatable-gridlines">
+    <p-table selectionMode="single" [value]="PhongBan" styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 70px; text-align: center;">STT</th>
-          <th style="width: 15%; text-align: left;">Nơi nhận</th>
-          <th style=" width: 15%;text-align: left;">Ngày ban hành</th>
-          <th style="text-align: left;">Nội dung</th>
-          <th style="width: 100px; text-align: left;">Người soạn thảo</th>
-         
+          <th style="width: 15%; text-align: left;">Tên phòng ban</th>
+          <th style=" width: 15%;text-align: left;">Ghi chú</th>
           <th style="width: 120px; text-align: left;">Tác vụ</th>
+          <th style="width: 120px; text-align: left;">Xem văn bản</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item  let-i="rowIndex">
         <tr>
           <td style="width: 70px; text-align: center;">{{ i + 1 }}</td>
-          <td>{{ item.noinhan }}</td>
-          <td>{{ item.ngaybanhanh | date:'yyyy-MM-dd ' }}</td>
-          <td>{{ item.noidung }}</td>
-          <td>{{ item.user_id }}</td>
+          <td>{{ item.tenphongban }}</td>
+          
+          <td>{{ item.ghichu }}</td>
+         
     
           <td class="action-col" >
             <div class="btn-group">
@@ -65,6 +63,11 @@
               </button>
             </div>  
           </td>
+          <td><div class="btn-group">
+            <button title="" class="btn btn-xs btn-white btn-default"  (click)="openModalVB(item)">  
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </button>
+          </div></td>
         </tr>
       </ng-template>
     </p-table>
@@ -80,69 +83,35 @@
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông của văn bản</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin văn bản</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông của phòng ban</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin phòng ban</h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
+             
+            
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right"> Ngày ban hành(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-                <p-calendar formControlName="ngaybanhanh" [dateFormat]="dateFormat"  [locale]="locale_vn" [showIcon]="true" inputId="icon"></p-calendar>
-                <div *ngIf="submitted && f.ngaybanhanh.errors" class="invalid-feedback">
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right">Loại văn bản(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-                <p-dropdown [options]="listvb" formControlName="tenloaivanban" [style]="{'width':'100%'}"></p-dropdown>
-                <!-- <input type="text" placeholder="Loại văn bản" formControlName="loaivanbanid"/> -->
+              <label class="col-sm-2 control-label no-padding-right">Tên phòng ban(<span style="color: red;">*</span>)</label>
+              <div class="col-sm-7">
+                <input type="text" placeholder="Tên phòng ban" formControlName="tenphongban"/>
                
-                <div *ngIf="submitted && f.tenloaivanban.errors" class="invalid-feedback">
-                  <div *ngIf="f.tenloaivanban.errors.required"> Loại văn bản</div>
+                <div *ngIf="submitted && f.tenphongban.errors" class="invalid-feedback">
+                  <div *ngIf="f.tenphongban.errors.required"> Tên phòng ban</div>
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right">Nơi nhận(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="Nơi nhận" formControlName="noinhan"/>
-               
-                <div *ngIf="submitted && f.noinhan.errors" class="invalid-feedback">
-                  <div *ngIf="f.noinhan.errors.required"> Nơi nhận</div>
+              <label class="col-sm-2 control-label no-padding-right">Ghi chú(<span style="color: red;">*</span>)</label>
+               <div class="col-sm-7">
+                <textarea   name="w3review" rows="4" cols="67"  formControlName="ghichu" > </textarea>
+               <!-- <input type="text"   formControlName="ghichu"     /> -->
+                <div *ngIf="submitted && f.ghichu.errors" class="invalid-feedback">
+                  <div *ngIf="f.ghichu.errors.required"> Ghi chú</div>
                 </div>
-              </div>
+              </div> 
+             
             </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right">Nội dung(<span style="color: red;">*</span>)</label>
-              <!-- <div class="col-sm-10">
-               
-               <input type="file"   formControlName="noidung" placeholder="" name="none"   />
-                <div *ngIf="submitted && f.noidung.errors" class="invalid-feedback">
-                  <div *ngIf="f.noidung.errors.required"> Nội dung</div>
-                </div>
-              </div> -->
-              <div class="col-sm-10" style="position:relative;">
-                <a class='btn btn-primary' href='javascript:;'>
-                  Chọn văn bản
-                  <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'
-                     size="40" formControlName="noidung"  onchange='$("#upload-file-info").html($(this).val());'>
-                </a>
-                &nbsp;
-                <span class='label label-info' id="upload-file-info"></span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label no-padding-right">Người soạn thảo(<span style="color: red;">*</span>)</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="Người soạn thảo" formControlName="user_id"/>
-               
-                <div *ngIf="submitted && f.user_id.errors" class="invalid-feedback">
-                  <div *ngIf="f.user_id.errors.required"> Người soạn thảo</div>
-                </div>
-              </div>
-            </div>
+             
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-sm" (click)="Reset()">
@@ -156,6 +125,70 @@
           </button>
         </div>
       </form>  
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showUpdateModal1" id="createUserModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg full-height-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4   class="modal-title">Danh sach van ban di</h4>
+         
+        </div>
+        <p-panel header="Tìm kiếm" [style]="{'margin-top': '2px'}">
+          <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="openDetail(tenpb)">
+             
+            <div class="form-group">
+              <label class="col-sm-1 control-label no-padding-right"> Tên loại văn bản </label>
+              <div class="col-sm-11">
+                <input formControlName="loaivb"  type="text" placeholder="Tên loại văn bản" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-1 control-label no-padding-right"></label>
+              <div class="col-sm-11">
+                <button (click)="openDetail(tenpb)" class="btn btn-sm btn-primary">Tìm kiếm</button>
+              </div>
+            </div>
+          </form> 
+        </p-panel>
+        <p-table selectionMode="single" [value]="listvb.data" styleClass="p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 70px; text-align: center;">STT</th>
+              <th style="width: 15%; text-align: left;">Nơi nhận</th>
+              <th style="width: 15%; text-align: left;">Tên loại văn bản</th>
+              <th style=" width: 100px;text-align: left;">Ngày ban hành</th>
+              <th style=" width: 300px;text-align: left;">Nội dung</th>
+              <th style="width: 100px; text-align: left;">Người soạn thảo</th>
+             
+             
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item  let-i="rowIndex">
+            <tr>
+              <td style="width: 70px; text-align: center;">{{ i + 1 }}</td>
+              <td>{{ item.tenphongban }}</td>
+              <td>{{ item.tenloaivanban }}</td>
+              <td>{{ item.ngaybanhanh | date:'yyyy-MM-dd ' }}</td>
+              <td>{{ item.noidung }}</td>
+              <td>{{ item.user_id }}</td>
+        
+              
+            </tr>
+          </ng-template>
+        </p-table>
+        <div class="col-xs-12" style="text-align: right;">
+          <ngb-pagination [collectionSize]="totalRecords_c" [pageSize]="pageSize_c" [(page)]="page_c" [maxSize]="10" [rotate]="true" (pageChange)="loadPage_c($event)"></ngb-pagination>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">
+            <i class="fa fa-times"></i> Đóng lại
+          </button>
+        </div>
+      
       </div>
     </div>
   </div>

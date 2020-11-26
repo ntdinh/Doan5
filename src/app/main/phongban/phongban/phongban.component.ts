@@ -11,13 +11,18 @@ declare var $: any;
   styleUrls: ['./user.component.css'],
 })
 export class PhongbanComponent extends BaseComponent implements OnInit {
-  public vanbandis: any ;
-  public VanBanDi: any;
+  public phongbans: any ;
+  public PhongBan: any;
   public LoaiVanBan : any;
-  public listvb: any [];
+  public listvb: any ;
+ public tenpb :any;
+ public showUpdateModal1 :any;
   public totalRecords:any;
+  public totalRecords_c:any;
   public pageSize = 3;
   public page = 1;
+  public page_c = 1;
+  public pageSize_c=3;
   public uploadedFiles: any[] = [];
   public formsearch: any;
   public formdata: any;
@@ -31,23 +36,24 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listvb =[{label:'Khác',value : 'Khác'}];
-    this._api.get('/api/VanBanDi/get-all').takeUntil(this.unsubscribe).subscribe(res => {
-      this.LoaiVanBan = res;
-      console.log(res);
-      this.LoaiVanBan.forEach(i =>{
-        let tam = {label : 'Khác', value : 'Khác'};
+    // this.listvb =[{label:'Khác',value : 'Khác'}];
+    // this._api.get('/api/PhongBan/get-all').takeUntil(this.unsubscribe).subscribe(res => {
+    //   this.LoaiVanBan = res;
+    //   console.log(res);
+    //   this.LoaiVanBan.forEach(i =>{
+    //     let tam = {label : 'Khác', value : 'Khác'};
         
-        tam.label=i.tenloaivanban;
-        tam.value = i.tenloaivanban;
+    //     tam.label=i.tenloaivanban;
+    //     tam.value = i.tenloaivanban;
        
-        this.listvb.push(tam);
-      });
-    });
+    //     this.listvb.push(tam);
+    //   });
+    // });
 
 
     this.formsearch = this.fb.group({
-      'noinhan': [''],  
+      'tenphongban': [''],
+      'loaivb':[''],  
     });
     
 
@@ -55,18 +61,18 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
   }
 
   loadPage(page) { 
-    this._api.post('/api/VanBanDi/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.VanBanDi = res.data;
+    this._api.post('/api/PhongBan/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.PhongBan = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
   } 
-
+  
   search() { 
     this.page = 1;
     this.pageSize = 5;
-    this._api.post('/api/VanBanDi/search',{page: this.page, pageSize: this.pageSize, noinhan: this.formsearch.get('noinhan').value}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.VanBanDi = res.data;
+    this._api.post('/api/PhongBan/search',{page: this.page, pageSize: this.pageSize, tenphongban: this.formsearch.get('tenphongban').value}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.PhongBan = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -92,13 +98,11 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
         
         let tmp = {
            
-          ngaybanhanh:value.ngaybanhanh,
-          tenloaivanban:value.tenloaivanban,
-          noinhan:value.noinhan,
-          noidung:value.noidung,
-          user_id:value.user_id        
+          tenphongban:value.tenphongban,
+          ghichu:value.ghichu,
+               
           };
-        this._api.post('/api/VanBanDi/create-vanbandi',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/PhongBan/create-phongban',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
@@ -108,15 +112,12 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
       this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
         
         let tmp = {
-          ngaybanhanh:value.ngaybanhanh,
-          tenloaivanban:value.tenloaivanban,
-          noinhan:value.noinhan,
-          noidung:value.noidung,
-          user_id:value.user_id,   
-          vanbanid:this.vanbandis.vanbanid,          
+          tenphongban:value.tenphongban,
+          ghichu:value.ghichu,
+          phongbanid:this.phongbans.phongbanid,          
           };
 
-        this._api.post('/api/VanBanDi/update-vanbandi',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/PhongBan/update-phongban',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
@@ -127,7 +128,7 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
   } 
 
   onDelete(row) { 
-    this._api.post('/api/VanBanDi/delete-vanbandi',{vanbanid:row.vanbanid}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/PhongBan/delete-phongban',{phongbanid:row.phongbanid}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
       });
@@ -136,11 +137,8 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
   Reset() {  
     //this.works = null;
     this.formdata = this.fb.group({
-      'ngaybanhanh': ['', Validators.required],
-      'tenloaivanban': ['', Validators.required],
-      'noinhan': [  Validators.required],
-      'noidung': [ , Validators.required],
-      'user_id': [,Validators.required],
+      'tenphongban': ['', Validators.required],
+      'ghichu': ['', Validators.required],   
     }); 
   }
 
@@ -148,15 +146,13 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
     this.isCreate = true;
-    this.vanbandis = null;
+    this.phongbans = null;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
       this.formdata = this.fb.group({
-        'ngaybanhanh': ['', Validators.required],
-      'tenloaivanban': ['', Validators.required],
-      'noinhan': [ '', Validators.required],
-      'noidung': [ '', Validators.required],
-      'user_id': ['',Validators.required],
+        'tenphongban': ['', Validators.required],
+      'ghichu': ['', Validators.required],
+      
       } );
      // this.formdata.get('dateWorkstart').setValue(this.today);
      // this.formdata.get('dateWorkend').setValue(this.today);
@@ -171,24 +167,83 @@ export class PhongbanComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/VanBanDi/get-by-id/'+ row.vanbanid).takeUntil(this.unsubscribe).subscribe((res:any) => {
-        this.vanbandis = res; 
-        let ngaybanhanh = new Date(this.vanbandis.ngaybanhanh);
+      this._api.get('/api/PhongBan/get-by-id/'+ row.phongbanid).takeUntil(this.unsubscribe).subscribe((res:any) => {
+        this.phongbans = res; 
+      //  let ngaybanhanh = new Date(this.phongbans.ngaybanhanh);
       //  let dateWorkend = new Date(this.vanbandi.dateWorkend);
           this.formdata = this.fb.group({
-            'ngaybanhanh': [ngaybanhanh, Validators.required],
-            'tenloaivanban': [this.vanbandis.tenloaivanban, Validators.required],
-            'noinhan': [this.vanbandis.noinhan, Validators.required],
-            'noidung': [this.vanbandis.noidung, Validators.required],
-            'user_id': [this.vanbandis.user_id, Validators.required],
+           // 'ngaybanhanh': [ngaybanhanh, Validators.required],
+            'tenphongban': [this.phongbans.tenphongban, Validators.required],
+            'ghichu': [this.phongbans.ghichu, Validators.required],
+            
          
           }); 
           this.doneSetupForm = true;
         }); 
     }, 700);
   }
-
+  public  openDetail(item){
+      let tam:any;
+    let page = 1;
+    this.tenpb = item;
+    let pageSize = 2;
+    this._api.post('/api/VanBanDi/get-all-phongban',{page:page,pageSize:pageSize,tenpb:item,loaivb:this.formsearch.get('loaivb').value}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.listvb = res;
+      tam = res.totalItems;
+      this.totalRecords_c =  res.totalItems;
+      this.pageSize_c = res.pageSize;
+      console.log(tam);
+      
+    });
+    
+  }
+  public loadPage_c(page){
+    this._api.post('/api/VanBanDi/get-all-phongban',{page:page,pageSize:this.pageSize_c,tenpb:this.tenpb}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.listvb = res;
+      this.totalRecords_c =  res.totalItems;
+      this.pageSize_c = res.pageSize;
+      console.log(res);
+      
+    });
+  }
+  public openModalVB(row) {
+    this.doneSetupForm = false;
+    this.showUpdateModal1 = true; 
+    this.formsearch = this.fb.group({
+      // 'ngaybanhanh': [ngaybanhanh, Validators.required],
+       'loaivb': ['', Validators.required],
+       
+       
+    
+     }); 
+    //this.openDetail(row.tenphongban);
+    let tam:any;
+    let page = 1;
+    this.tenpb = row.tenphongban;
+    let pageSize = 2;
+    
+    this._api.post('/api/VanBanDi/get-all-phongban',{page:page,pageSize:pageSize,tenpb:this.tenpb,loaivb:this.formsearch.get('loaivb').value}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.listvb = res;
+     
+      this.totalRecords_c =  res.totalItems;
+      this.pageSize_c = res.pageSize;
+      
+      if(this.totalRecords_c>0){
+        setTimeout(() => {
+          $('#createUserModal1').modal('toggle');
+              this.doneSetupForm = true;
+             
+        }, 700);
+        }
+        else{
+          alert("Không có văn bản nào !");
+        }
+    });
+    
+    
+  }
   closeModal() {
     $('#createUserModal').closest('.modal').modal('hide');
+    $('#createUserModal1').closest('.modal').modal('hide');
   }
 }
