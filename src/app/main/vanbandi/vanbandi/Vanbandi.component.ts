@@ -35,12 +35,12 @@ export class VanbandiComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listvb =[{label:'Khác',value : 'Khác'}];
+    this.listvb =[{label:'Chọn loại văn bản',value : 'Khác'}];
     this._api.get('/api/VanBanDi/get-all').takeUntil(this.unsubscribe).subscribe(res => {
       this.LoaiVanBan = res;
       console.log(res);
       this.LoaiVanBan.forEach(i =>{
-        let tam = {label : 'Khác', value : 'Khác'};
+        let tam = {label : 'Chọn loại văn bản', value : 'Khác'};
         
         tam.label=i.tenloaivanban;
         tam.value = i.tenloaivanban;
@@ -49,12 +49,12 @@ export class VanbandiComponent extends BaseComponent implements OnInit {
       });
     });
 
-    this.listpb =[{label:'Khác',value : 'Khác'}];
+    this.listpb =[{label:'Nơi nhận',value : 'Khác'}];
     this._api.get('/api/PhongBan/get-all').takeUntil(this.unsubscribe).subscribe(res => {
       this.NoiNhan = res;
       console.log(res);
       this.NoiNhan.forEach(i =>{
-        let tam1 = {label : 'Khác', value : 'Khác'};
+        let tam1 = {label : 'Nơi nhận', value : 'Khác'};
         
         tam1.label=i.tenphongban;
         tam1.value = i.tenphongban;
